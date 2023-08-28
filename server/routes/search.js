@@ -34,8 +34,10 @@ router.post(`/keywords`, fetchUser, async(req, res) => {
     }
 })
 
-router.get(`/seo/:obj`, fetchUser, async(req, res)=> {
+router.post(`/seo`, fetchUser, async(req, res)=> {
     try{
+        let bodyObj = req.sanitize(req.body.obj)
+
         const sdk = require('api')('@eden-ai/v2.0#rmckb24zallf965p7');
 
         sdk.auth('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZjQ3NmRiNGItNTNmNi00MzcyLWFjODMtMDVlYzJlMTAzYzAwIiwidHlwZSI6ImFwaV90b2tlbiJ9.WFSnllRq-K7Dt7kR-pcNUCRwH85Ss2Z7-f_4gP2ENkw');
@@ -45,10 +47,13 @@ router.get(`/seo/:obj`, fetchUser, async(req, res)=> {
         show_original_response: false,
         temperature: 0,
         max_tokens: 100,
-        providers: 'cohere,openai,anthropic,google,ai21labs',
-        text: `Generate seo keywords related to ${req.params.obj}`
+        providers: 'openai',
+        text: `Generate seo keywords related to ${bodyObj}`
         })
-        .then(({ data }) => console.log(data))
+        .then(({ data }) => {
+            //console.log(data)
+            return res.status(200).send(data)
+        })
         .catch(err => console.error(err));
     }
     catch(error){
