@@ -40,7 +40,7 @@ router.post(`/seo`, fetchUser, async(req, res)=> {
 
         const sdk = require('api')('@eden-ai/v2.0#rmckb24zallf965p7');
 
-        sdk.auth('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZjQ3NmRiNGItNTNmNi00MzcyLWFjODMtMDVlYzJlMTAzYzAwIiwidHlwZSI6ImFwaV90b2tlbiJ9.WFSnllRq-K7Dt7kR-pcNUCRwH85Ss2Z7-f_4gP2ENkw');
+        sdk.auth(process.env.EdenAIAPIKEY);
         sdk.text_generation_create({
         response_as_dict: true,
         attributes_as_list: false,
