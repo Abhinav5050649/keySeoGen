@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 import requests
 from bs4 import BeautifulSoup
 from collections import Counter
+import re
 
 app = FastAPI()
 
@@ -33,11 +34,12 @@ def scrape_google(search_param, num_pages=5):
 
     return all_results
 
-def extract_keywords(results, num_keywords=5):
+def extract_keywords(results, num_keywords=10):
     keywords = []
     for result in results:
         text = result.get_text()
-        keywords.extend(text.split())
+        words = re.findall(r'\b\w+\b', text)
+        keywords.extend(words)
     
     keyword_counter = Counter(keywords)
     top_keywords = keyword_counter.most_common(num_keywords)
@@ -50,8 +52,17 @@ async def scrape_google_keywords(search_param: str):
         top_keywords = extract_keywords(results)
         
         response_data = []
+        keywords=[]
         for keyword, frequency in top_keywords:
             response_data.append({"keyword": keyword, "frequency": frequency})
+            keywords.append(keyword)
+
+        print(keywords)
+
+        with open('keywords.txt','w') as file:
+            file.writelines(str(response_data))
+        
+        file.close()
         
         return {"search_param": search_param, "top_keywords": response_data}
     except Exception as e:
