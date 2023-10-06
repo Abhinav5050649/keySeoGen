@@ -38,7 +38,7 @@ router.post(`/signup`,
             //change secure to true in prod, keep to false in dev/test
             //res.cookie('token', authToken, { httpOnly: true, secure: true })
 
-            return res.cookie('token', authToken, { httpOnly: true, secure: true }).status(200).json({message: "Successful signup!"})
+            return res.cookie('token', authToken, { httpOnly: true, secure: false }).status(200).json({message: "Successful signup!"})
             //return res.status(200).cookie('token', authToken, { httpOnly: true, secure: false }).json({message: "Successful signup!"})
         }   catch (error) {
             console.error(error);
@@ -77,7 +77,7 @@ router.post(`/login`,
             //return res.status(200).cookie('token', authToken, { httpOnly: true, secure: false }).json({message: "Successful login!"})
             //change secure to true in prod, keep to false in dev/test
             //res.cookie('token', authToken, { httpOnly: true, secure: true })
-            return res.cookie('token', authToken, { httpOnly: true, secure: true }).status(200).json({message: "Successful login!"})
+            return res.cookie('token', authToken, { httpOnly: true, secure: false }).status(200).json({message: "Successful login!"})
 
         }   catch (error)   {
             console.error(error);
